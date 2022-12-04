@@ -1,32 +1,43 @@
 from gen import Tree
 from demo_trees import trees
 import ws1
-reload(ws1)
 from ws1 import layout
 
-t = layout(trees[4])
+# draw_ws1 and draw_ws2 are the same, the tree is different.
+# and they use ws1 and ws2 respectively.
+# that's all.
 
-r = 30
-rh = r*1.5
-rw = r*1.5
-stroke(0)
 
-def drawt(root, depth):
-    global r
-    oval(root.x * rw, depth * rh, r, r)
-    print root.x
+def drawt(root, depth, r, rw, rh):
+    objects = []
+    my_oval = (root.x * rw, depth * rh, r)
+    objects.append(my_oval)
     for child in root.children:
-        drawt(child, depth+1)
+        more_objects = drawt(child, depth + 1, r, rw, rh)
+        objects += more_objects
+    return objects
 
-def drawconn(root, depth):
+
+def drawconn(root, depth, r, rw, rh):
+    objects = []
     for child in root.children:
-        line(root.x * rw + (r/2), depth * rh + (r/2),
-             child.x * rw + (r/2), (depth+1) * rh + (r/2))
-        drawconn(child, depth+1)
-        
-size(1000, 500)
-translate(2, 2)
-stroke(0)
-drawconn(t, 0)
-fill(1,1,1)
-drawt(t, 0)
+        p1 = (root.x * rw, depth * rh + r, 0)
+        p2 = (child.x * rw, (depth + 1) * rh - r, 0)
+        my_line = (p1, p2)
+        objects.append(my_line)
+        more_lines = drawconn(child, depth + 1, r, rw, rh)
+        objects += more_lines
+    return objects
+
+
+def main():
+    t = layout(trees[4])
+
+    r = 0.5
+    rh = r * 2.5
+    rw = r * 2.5
+
+    lines = drawconn(t, 0, r, rw, rh)
+    circles = drawt(t, 0, r, rw, rh)
+
+    return lines, circles

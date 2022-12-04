@@ -7,6 +7,8 @@ I started with knuthdraw to see how strongly the code depends on the original dr
 Looks like this, so the code does work, it just takes some tweaking. We'll see how much time I can invest into rewriting other bits as well.
 
 ![test_knuthdraw.svg](test_knuthdraw.svg)
+![test_ws1.svg](test_ws1.svg)
+![test_ws2.svg](test_ws2.svg)
 
 # old readme
 The following repository contains implementations of the functions described in the article "Drawing Presentable Trees" published in Python Magazine.
