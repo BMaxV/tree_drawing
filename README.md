@@ -9,6 +9,7 @@ Looks like this, so the code does work, it just takes some tweaking. We'll see h
 ![test_knuthdraw.svg](test_knuthdraw.svg)
 ![test_ws1.svg](test_ws1.svg)
 ![test_ws2.svg](test_ws2.svg)
+![test_buchheim.svg.svg](test_buchheim.svg.svg)
 
 # old readme
 The following repository contains implementations of the functions described in the article "Drawing Presentable Trees" published in Python Magazine.

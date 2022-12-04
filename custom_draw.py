@@ -1,6 +1,7 @@
 import knuthdraw
 import draw_ws1
 import draw_ws2
+import figure7
 
 # my custom drawing modules
 from geom import geom
@@ -17,11 +18,10 @@ def type_convert_tups_lines(lines):
 def type_convert_tups_rectangles(rects):
     new_rects = []
     for rect in rects:
+        pos = (rect[2], rect[3], 0)
+        d_vec = (rect[0], rect[1], 0)
         new_rects.append(
-            geom.rectangle(
-                d_vec=(
-                    rect[0], rect[1], 0), local_position=(
-                    rect[2], rect[3], 0)))
+            geom.rectangle(d_vec=d_vec, local_position=pos))
 
     return new_rects
 
@@ -30,13 +30,9 @@ def type_convert_tups_circles(circles):
     new_circles = []
     for circ in circles:
         x, y, r = circ
+        pos = vector.Vector(x, y, 0)
         new_circles.append(
-            geom.circle(
-                radius=r,
-                local_position=vector.Vector(
-                    x,
-                    y,
-                    0)))
+            geom.circle(radius=r, local_position=pos))
     return new_circles
 
 
@@ -44,6 +40,24 @@ def draw_main():
     test_output_knuth()
     test_draw_ws1()
     test_draw_ws2()
+    test_draw_buchheim7()
+
+
+def test_draw_buchheim7():
+    circles, lines, dotted = figure7.main()
+    lines = type_convert_tups_lines(lines)
+    dotted = type_convert_tups_lines(dotted)
+    for x in dotted:
+        x.style = "stroke:rgb(255,0,0)"
+    circles = type_convert_tups_circles(circles)
+    my_list = lines + circles + dotted
+   # for x in my_list:
+    # x.scale_to(vector.Vector(0,0,0),0.01)
+    view_box_d = geom.make_view_box_d(my_list)
+    fl = []
+    for x in my_list:
+        fl.append(x.as_svg())
+    geom.main_svg(fl, "test_buchheim.svg", view_box_d=view_box_d)
 
 
 def test_draw_ws2():

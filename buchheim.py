@@ -40,8 +40,10 @@ class DrawTree(object):
         return self._lmost_sibling
     lmost_sibling = property(get_lmost_sibling)
 
-    def __str__(self): return "%s: x=%s mod=%s" % (self.tree, self.x, self.mod)
-    def __repr__(self): return self.__str__()
+    def __str__(self): 
+        return "%s: x=%s mod=%s" % (self.tree, self.x, self.mod)
+    def __repr__(self): 
+        return self.__str__()
 
 def buchheim(tree):
     dt = firstwalk(DrawTree(tree))
@@ -66,7 +68,6 @@ def firstwalk(v, distance=1.):
         for w in v.children:
             firstwalk(w)
             default_ancestor = apportion(w, default_ancestor, distance)
-        print "finished v =", v.tree, "children"
         execute_shifts(v)
 
         midpoint = (v.children[0].x + v.children[-1].x) / 2
@@ -119,7 +120,6 @@ def apportion(v, default_ancestor, distance):
 
 def move_subtree(wl, wr, shift):
     subtrees = wr.number - wl.number
-    print wl.tree, "is conflicted with", wr.tree, 'moving', subtrees, 'shift', shift
     #print wl, wr, wr.number, wl.number, shift, subtrees, shift/subtrees
     wr.change -= shift / subtrees
     wr.shift += shift
@@ -130,7 +130,6 @@ def move_subtree(wl, wr, shift):
 def execute_shifts(v):
     shift = change = 0
     for w in v.children[::-1]:
-        print "shift:", w, shift, w.change
         w.x += shift
         w.mod += shift
         change += w.change
@@ -157,27 +156,3 @@ def second_walk(v, m=0, depth=0, min=None):
 
     return min
 
-r = 30
-rh = r*1.5
-rw = r*1.5
-stroke(0)
-
-def drawt(root, depth):
-    global r
-    oval(root.x * rw, depth * rh, r, r)
-    print root.x
-    for child in root.children:
-        drawt(child, depth+1)
-
-def drawconn(root, depth):
-    for child in root.children:
-        line(root.x * rw + (r/2), depth * rh + (r/2),
-             child.x * rw + (r/2), (depth+1) * rh + (r/2))
-        drawconn(child, depth+1)
-
-size(1000, 500)
-translate(2, 2)
-stroke(0)
-drawconn(dt, 0)
-fill(1,1,1)
-drawt(dt, 0)
