@@ -18,8 +18,8 @@ def type_convert_tups_lines(lines):
 def type_convert_tups_rectangles(rects):
     new_rects = []
     for rect in rects:
-        pos = (rect[2], rect[3], 0)
-        d_vec = (rect[0], rect[1], 0)
+        pos = vector.Vector(*(rect[2], rect[3], 0))
+        d_vec = vector.Vector(*(rect[0], rect[1], 0))
         new_rects.append(
             geom.rectangle(d_vec=d_vec, local_position=pos))
 
@@ -41,7 +41,6 @@ def draw_main():
     test_draw_ws1()
     test_draw_ws2()
     test_draw_buchheim7()
-
 
 def test_draw_buchheim7():
     circles, lines, dotted = figure7.main()
@@ -67,7 +66,9 @@ def test_draw_ws2():
     my_list = lines + circles
    # for x in my_list:
     # x.scale_to(vector.Vector(0,0,0),0.01)
+    
     view_box_d = geom.make_view_box_d(my_list)
+    
     fl = []
     for x in my_list:
         fl.append(x.as_svg())
@@ -96,7 +97,6 @@ def test_output_knuth():
     # this is my custom drawing code.
     my_list = lines + rects
     for x in my_list:
-        print(x.local_position)
         x.scale_to(vector.Vector(0, 0, 0), 0.01)
     view_box_d = geom.make_view_box_d(my_list)
     fl = []
