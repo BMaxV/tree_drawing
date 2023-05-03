@@ -3,7 +3,7 @@ import knuth
 import draw_ws1
 import draw_ws2
 import figure7
-
+import buchheim
 from demo_trees import trees
 
 # my custom drawing modules
@@ -47,7 +47,11 @@ def draw_main():
 
 
 def test_draw_buchheim7():
-    circles, lines, dotted = figure7.main()
+    
+    t = buchheim.buchheim(trees[8])
+    
+    circles, lines, dotted = figure7.main(t)
+    
     lines = type_convert_tups_lines(lines)
     dotted = type_convert_tups_lines(dotted)
     for x in dotted:
