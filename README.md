@@ -6,10 +6,16 @@ I started with knuthdraw to see how strongly the code depends on the original dr
 
 Looks like this, so the code does work, it just takes some tweaking. We'll see how much time I can invest into rewriting other bits as well.
 
-![test_knuthdraw.svg](test_knuthdraw.svg)
-![test_ws1.svg](test_ws1.svg)
-![test_ws2.svg](test_ws2.svg)
-![test_buchheim.svg](test_buchheim.svg)
+![test_knuthdraw.svg](tree_drawing/test_knuthdraw.svg)
+![test_ws1.svg](tree_drawing/test_ws1.svg)
+![test_ws2.svg](tree_drawing/test_ws2.svg)
+![test_buchheim.svg](tree_drawing/test_buchheim.svg)
+
+# original license.
+
+...WTFPL
+
+which is a bit inconvenient so I'm relicensing the stuff I did and changed and the new code as MIT.
 
 # old readme
 The following repository contains implementations of the functions described in the article "Drawing Presentable Trees" published in Python Magazine.
@@ -17,3 +23,4 @@ The following repository contains implementations of the functions described in 
 Check it out at http://billmill.org/pymag-trees/
 
 All code and text contained herein is free for anyone to use as they see fit. It is licensed under the WTFPL, which can be found in the LICENSE file.
+
