@@ -1,4 +1,5 @@
 import knuthdraw
+import knuth
 import draw_ws1
 import draw_ws2
 import figure7
@@ -92,13 +93,24 @@ def test_draw_ws1():
     geom.main_svg(fl, "test_ws1.svg", view_box_d=view_box_d)
 
 
+def dict_convert(t,my_dict=None):
+    if my_dict==None:
+        my_dict={}
+    nodename=str(id(t))
+    my_dict[nodename]=[]
+    for child in t.children:
+        my_dict[nodename] = dict_convert(child)
+        
+    return my_dict
+
+
 def test_output_knuth():
-
-    # ok, so the trees are just nodes, having children, etc..
-    # so the logical next step is probably.
-
-    t = layout(trees[5])
-    # print(t, dir(t))
+    
+    # this merely does binary trees.
+    # it's shit. don't use it.
+    # don't even touch this.
+        
+    t = knuth.layout(trees[5])
 
     lines, rects = knuthdraw.main(t)
     # this converts to my custom types
