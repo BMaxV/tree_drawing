@@ -3,6 +3,8 @@ import draw_ws1
 import draw_ws2
 import figure7
 
+from demo_trees import trees
+
 # my custom drawing modules
 from geom import geom
 from vector import vector
@@ -42,6 +44,7 @@ def draw_main():
     test_draw_ws2()
     test_draw_buchheim7()
 
+
 def test_draw_buchheim7():
     circles, lines, dotted = figure7.main()
     lines = type_convert_tups_lines(lines)
@@ -66,9 +69,9 @@ def test_draw_ws2():
     my_list = lines + circles
    # for x in my_list:
     # x.scale_to(vector.Vector(0,0,0),0.01)
-    
+
     view_box_d = geom.make_view_box_d(my_list)
-    
+
     fl = []
     for x in my_list:
         fl.append(x.as_svg())
@@ -90,7 +93,14 @@ def test_draw_ws1():
 
 
 def test_output_knuth():
-    lines, rects = knuthdraw.main()
+
+    # ok, so the trees are just nodes, having children, etc..
+    # so the logical next step is probably.
+
+    t = layout(trees[5])
+    # print(t, dir(t))
+
+    lines, rects = knuthdraw.main(t)
     # this converts to my custom types
     lines = type_convert_tups_lines(lines)
     rects = type_convert_tups_rectangles(rects)
