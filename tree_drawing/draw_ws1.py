@@ -1,7 +1,4 @@
-from gen import Tree
-from demo_trees import trees
-import ws1
-from ws1 import layout
+from . import ws1
 
 # draw_ws1 and draw_ws2 are the same, the tree is different.
 # and they use ws1 and ws2 respectively.
@@ -30,8 +27,8 @@ def drawconn(root, depth, r, rw, rh):
     return objects
 
 
-def main():
-    t = layout(trees[4])
+def main(t):
+    t = ws1.layout(t)
 
     r = 0.5
     rh = r * 2.5

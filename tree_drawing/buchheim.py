@@ -8,6 +8,10 @@
 # the problem with this is is that the tree doesn't do anything.
 # I can't use it for anything, because the tree object holds no data.
 
+# I should animate this.
+
+from . import gen
+
 class DrawTree:
     def __init__(self, tree, parent=None, depth=0, index=1):
         self.x = -1
@@ -15,7 +19,11 @@ class DrawTree:
         self.tree = tree
         self.children = []
         for i, c in enumerate(tree.children):
-            self.children.append(DrawTree(c, self, depth+1, i+1))
+            if c.node == tree.node:
+                #create a dummy that looks the same but has no children.
+                self.children.append(DrawTree(gen.Tree(c.node), self, depth+1, i+1))
+            else:
+                self.children.append(DrawTree(c, self, depth+1, i+1))
         
         self.parent = parent
         self.thread = None
@@ -34,6 +42,8 @@ class DrawTree:
         return self.thread or len(self.children) and self.children[-1]
 
     def lbrother(self):
+        # very unelegant considering we already have the index
+        # saved.
         n = None
         if self.parent:
             for node in self.parent.children:
@@ -74,20 +84,26 @@ def firstwalk(node, distance = 1):
         else:
             node.x = 0
     else:
+        ## this does stuff with ancestor and recursion.
         default_ancestor = node.children[0]
         for child in node.children:
             firstwalk(child)
             default_ancestor = apportion(child, default_ancestor, distance)
+        ##
+        
         execute_shifts(node)
-
+        
         midpoint = (node.children[0].x + node.children[-1].x) / 2
-
+        
+        # these are unncessary. should check the paper.
         ell = node.children[0]
         arr = node.children[-1]
+        
         brother = node.lbrother()
         if brother:
             node.x = brother.x + distance
             node.mod = node.x - midpoint
+            # it's first doing a recursion through the tree, *then* adjusts the position? sounds dumb.
         else:
             node.x = midpoint
     return node

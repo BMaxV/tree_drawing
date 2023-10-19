@@ -1,16 +1,9 @@
-from gen import Tree
 from math import atan, cos, sin, pi
-# import demo_trees#; reload(demo_trees)
-from demo_trees import trees
-# import buchheim#; reload(buchheim)
-from buchheim import buchheim as layout
-
-# from the script "buchheim" import the function "buchheim" as the name layout
-
 
 def drawt(root, depth, r, rw, rh):
     objects = []
-    my_oval = (root.x * rw, depth * rh, r)
+    # child.tree.node is the text stored here
+    my_oval = (root.x * rw, depth * rh, r, root.tree.node)
     objects.append(my_oval)
     for child in root.children:
         more_objects = drawt(child, depth + 1, r, rw, rh)
@@ -70,20 +63,15 @@ def drawthreads(root, depth, r, rw, rh):
     return dotted
 
 
-def main():
-    t = layout(trees[8])
-
+def main(t):
+    
     r = 0.5
     rh = r * 2.5
     rw = r * 2.5
-    # stroke(0)
-
-    #size(1000, 500)
-    #translate(2, 2)
-    # stroke(0)
+    
     lines = drawconn(t, 0, r, rw, rh)
     dotted_lines = drawthreads(t, 0, r, rw, rh)
-    # fill(1,1,1)
+    
     circles = drawt(t, 0, r, rw, rh)
 
     return circles, lines, dotted_lines

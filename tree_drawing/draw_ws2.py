@@ -1,7 +1,4 @@
-from gen import Tree
-from demo_trees import trees
-import ws2
-from ws2 import layout
+from . import ws2
 
 # draw_ws1 and draw_ws2 are the same, the tree is different.
 # and they use ws1 and ws2 respectively.
@@ -10,7 +7,7 @@ from ws2 import layout
 
 def drawt(root, depth, r, rw, rh):
     objects = []
-    my_oval = (root.x * rw, depth * rh, r)
+    my_oval = (root.x * rw, depth * rh, r, root.tree.node)
     objects.append(my_oval)
     for child in root.children:
         more_objects = drawt(child, depth + 1, r, rw, rh)
@@ -30,8 +27,8 @@ def drawconn(root, depth, r, rw, rh):
     return objects
 
 
-def main():
-    t = layout(trees[5])
+def main(t):
+    t = ws2.layout(t)
 
     r = 0.5
     rh = r * 2.5

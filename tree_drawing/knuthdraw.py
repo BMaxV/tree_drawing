@@ -1,8 +1,3 @@
-import knuth
-
-from knuth import layout
-
-
 def drawt(root, depth, r, rh, rw):
     my_r = (r,  # width
             r,  # height

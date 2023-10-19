@@ -1,4 +1,6 @@
-from gen import Tree
+from . import gen
+
+Tree=gen.Tree
 
 trees = [
 #0 simple test

@@ -1,15 +1,16 @@
-import knuthdraw
-import knuth
-import draw_ws1
-import draw_ws2
-import figure7
-import buchheim
-from demo_trees import trees
-
+from . import knuthdraw
+from . import knuth
+from . import draw_ws1
+from . import draw_ws2
+from . import figure7
+from . import buchheim
+from . import demo_trees
+from . import gen
 # my custom drawing modules
 from geom import geom
 from vector import vector
 
+import textwrap
 
 def type_convert_tups_lines(lines):
     new_lines = []
@@ -32,10 +33,16 @@ def type_convert_tups_rectangles(rects):
 def type_convert_tups_circles(circles):
     new_circles = []
     for circ in circles:
-        x, y, r = circ
+        text=None
+        if len(circ)==4:
+            x, y, r, text = circ
+        else:
+            x, y, r = circ
         pos = vector.Vector(x, y, 0)
         new_circles.append(
             geom.circle(radius=r, local_position=pos))
+        if text!=None:
+            new_circles.append(geom.Text(local_position=pos,text=text))
     return new_circles
 
 
@@ -46,9 +53,39 @@ def draw_main():
     test_draw_buchheim7()
 
 
-def test_draw_buchheim7():
+def convert_tree_to_tree_drawing_datastructure(in_tree,recursion_dict):
+    nodes = {}
+    trees = []
     
-    t = buchheim.buchheim(trees[8])
+    for x in in_tree:
+        if x not in nodes:
+            nodes[x]=gen.Tree(x)
+        for value in in_tree[x]:
+            if value not in nodes:
+                nodes[value] = gen.Tree(value)
+    
+    for x in in_tree:
+        root = nodes[x]
+        for value in in_tree[x]:
+            if value in recursion_dict:
+                root.children.append(gen.Tree("recursive '"+value+"'")) #add an empty one.
+            else:
+                root.children.append(nodes[value])
+        trees.append(root)
+    
+    return trees
+    
+def buchheimtree_draw(in_tree, recursion_dict):
+    
+    trees = convert_tree_to_tree_drawing_datastructure(in_tree,recursion_dict)
+        
+    for x in trees:
+        test_draw_buchheim7(x)
+        
+def test_draw_buchheim7(t=None,output_fn_prefix="codetree_"):
+    if t == None:
+        t = demo_trees.trees[8]
+    t = buchheim.buchheim(t)
     
     circles, lines, dotted = figure7.main(t)
     
@@ -58,44 +95,16 @@ def test_draw_buchheim7():
         x.style = "stroke:rgb(255,0,0)"
     circles = type_convert_tups_circles(circles)
     my_list = lines + circles + dotted
-   # for x in my_list:
-    # x.scale_to(vector.Vector(0,0,0),0.01)
+    
     view_box_d = geom.make_view_box_d(my_list)
     fl = []
     for x in my_list:
         fl.append(x.as_svg())
-    geom.main_svg(fl, "test_buchheim.svg", view_box_d=view_box_d)
-
-
-def test_draw_ws2():
-    lines, circles = draw_ws2.main()
-    lines = type_convert_tups_lines(lines)
-    circles = type_convert_tups_circles(circles)
-    my_list = lines + circles
-   # for x in my_list:
-    # x.scale_to(vector.Vector(0,0,0),0.01)
-
-    view_box_d = geom.make_view_box_d(my_list)
-
-    fl = []
-    for x in my_list:
-        fl.append(x.as_svg())
-    geom.main_svg(fl, "test_ws2.svg", view_box_d=view_box_d)
-
-
-def test_draw_ws1():
-    lines, circles = draw_ws1.main()
-    lines = type_convert_tups_lines(lines)
-    circles = type_convert_tups_circles(circles)
-    my_list = lines + circles
-    # for x in my_list:
-    # x.scale_to(vector.Vector(0,0,0),0.01)
-    view_box_d = geom.make_view_box_d(my_list)
-    fl = []
-    for x in my_list:
-        fl.append(x.as_svg())
-    geom.main_svg(fl, "test_ws1.svg", view_box_d=view_box_d)
-
+    
+    if t.tree.node == "root": # this is mcguyver'ed I know that this is the default.
+        geom.main_svg(fl, output_fn_prefix+ "root.svg", view_box_d=view_box_d)
+    else:
+        geom.main_svg(fl, output_fn_prefix + t.tree.node + ".svg", view_box_d=view_box_d)
 
 def dict_convert(t,my_dict=None):
     if my_dict==None:
@@ -108,27 +117,6 @@ def dict_convert(t,my_dict=None):
     return my_dict
 
 
-def test_output_knuth():
-    
-    # this merely does binary trees.
-    # it's shit. don't use it.
-    # don't even touch this.
-        
-    t = knuth.layout(trees[5])
-
-    lines, rects = knuthdraw.main(t)
-    # this converts to my custom types
-    lines = type_convert_tups_lines(lines)
-    rects = type_convert_tups_rectangles(rects)
-    # this is my custom drawing code.
-    my_list = lines + rects
-    for x in my_list:
-        x.scale_to(vector.Vector(0, 0, 0), 0.01)
-    view_box_d = geom.make_view_box_d(my_list)
-    fl = []
-    for x in my_list:
-        fl.append(x.as_svg())
-    geom.main_svg(fl, "test_knuthdraw.svg", view_box_d=view_box_d)
 
 
 if __name__ == "__main__":

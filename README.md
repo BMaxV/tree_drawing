@@ -11,6 +11,14 @@ Looks like this, so the code does work, it just takes some tweaking. We'll see h
 ![test_ws2.svg](tree_drawing/test_ws2.svg)
 ![test_buchheim.svg](tree_drawing/test_buchheim.svg)
 
+# how to
+
+Check the "self made" in tests/regular tests, it produces this output.
+
+Careful with recursion, I meant to write something to prevent it, but it looks like that's not working right now.
+
+![selfmade_tree.svg](tree_drawing/selfmade_tree.svg)
+
 # original license.
 
 ...WTFPL
